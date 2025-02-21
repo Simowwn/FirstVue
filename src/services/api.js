@@ -41,7 +41,25 @@ export const userService = {
   logout() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
+  },
+  async registerStall(stallData) {
+    console.log('Registering stall with data:', stallData); // Debug log
+    try {
+      return await api.post('/stalls/', stallData);
+    } catch (error) {
+      console.error('Error registering stall:', error); // Log the error
+      throw error; // Rethrow the error for further handling
+    }
+  },
+  async getStalls() {
+    try {
+      return await api.get('/stalls/'); // Ensure this endpoint exists in your backend
+    } catch (error) {
+      console.error('Error fetching stalls:', error); // Log the error
+      throw error; // Rethrow the error for further handling
+    }
   }
+
 };
 
 export default api; 
