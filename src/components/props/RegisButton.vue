@@ -1,15 +1,26 @@
 <template>
-    <div>
-        <button class="regis-button">{{label}}</button>
-    </div>
+    <button 
+        :type="type" 
+        class="regis-button"
+        @click="$emit('click')"
+    >
+        {{ label }}
+    </button>
 </template>
+
 <script>
 export default {
     props: {
-        label:String
-    }
+        label: String,
+        type: {
+            type: String,
+            default: 'button'
+        }
+    },
+    emits: ['click']
 }
 </script>
+
 <style>
     .regis-button{
         padding: 10px;

@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../views/Login.vue'
-import Signup from '../views/Signup.vue'
+import Register from '../views/Register.vue'
 import Stall from '../views/Stall.vue'
 import AdminLogin from '../views/AdminLogin.vue'
 import AdminSignUp from '../views/AdminSignUp.vue'
@@ -25,9 +25,9 @@ const routes = [
     component: Login
   },
   {
-    path: '/signup',
-    name: 'Signup',
-    component: Signup
+    path: '/register',
+    name: 'Register',
+    component: Register
   },
   {
     path:'/stall',
@@ -41,7 +41,7 @@ const routes = [
   },
   {
     path:'/Admin/Signup',
-    name: 'Signup',
+    name: 'AdminSignUp',
     component: AdminSignUp
   },
   // You can add more routes here as needed

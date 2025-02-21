@@ -8,7 +8,7 @@
       <Inputbar placeholder="Enter your email"/>
       <Inputlabel label="Password" /> 
       <Inputbar type="password" placeholder="Enter your password" />
-      <RegisButton label="Login"/>
+      <RegisButton label="Sign Up"/>
     </form>
   </div>
 </template>
@@ -24,7 +24,7 @@ export default {
     return { name: 'John' }
   },
   components: {
-    Inputbar,Inputlabel,RegisButton,SMLlogo
+    Inputbar, Inputlabel, RegisButton, SMLlogo
   }
 }
 </script>
