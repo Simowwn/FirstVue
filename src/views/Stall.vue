@@ -1,55 +1,56 @@
 <template>
-  <div class="row">
+  <div>
+    <Navbar />
+    <div class="row">
       <div class="col stall-form">
         <form class="form-container">
-          
-      <h1 class="stall-title">Register Stalls</h1>
-      <h1>Now!</h1>
-      <br>
-      <Inputlabel label="Brand" /> 
-      <Inputbar placeholder="Enter your brand"/>
-      <Inputlabel label="Type" /> 
-      <Inputbar placeholder="Enter your type"/>
-      <RegisButton label="Register"/>
-    </form>
+          <h1 class="stall-title">Register Stalls</h1>
+          <h1>Now!</h1>
+          <br>
+          <Inputlabel label="Brand" /> 
+          <Inputbar placeholder="Enter your brand"/>
+          <Inputlabel label="Type" /> 
+          <Inputbar placeholder="Enter your type"/>
+          <RegisButton label="Register"/>
+        </form>
       </div>
       
-       <div class="stall-list">
-          <table>
-            <tr>
-              <th>Stall</th>
-              <th>Brand</th>
-              <th>Created at</th>
-            </tr>
-            <tr>
-              <td>Egboy</td>
-              <td>Maria Anders</td>
-              <td>Germany</td>
-            </tr>
-            <tr>
-              <td>Egboy</td>
-              <td>Francisco Chang</td>
-              <td>MexicoLalalala</td>
-            </tr>
-          </table>
-       </div>
-
+      <div class="stall-list">
+        <table>
+          <tr>
+            <th>Stall</th>
+            <th>Brand</th>
+            <th>Created at</th>
+          </tr>
+          <tr>
+            <td>Egboy</td>
+            <td>Maria Anders</td>
+            <td>Germany</td>
+          </tr>
+          <tr>
+            <td>Egboy</td>
+            <td>Francisco Chang</td>
+            <td>MexicoLalalala</td>
+          </tr>
+        </table>
+      </div>
+    </div>
   </div>
 </template>
-
 
 <script>
 import Inputbar from '../components/props/Inputbar.vue';
 import Inputlabel from '../components/props/Inputlabel.vue';
 import RegisButton from '../components/props/RegisButton.vue';
 import SMLlogo from '../components/props/SMLlogo.vue';
+import Navbar from '../components/props/Navbar.vue';
 
 export default {
   data() {
     return { name: 'John' }
   },
   components: {
-    Inputbar,Inputlabel,RegisButton,SMLlogo
+    Inputbar, Inputlabel, RegisButton, SMLlogo, Navbar
   }
 }
 </script>

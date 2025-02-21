@@ -5,34 +5,28 @@ import Stall from '../views/Stall.vue'
 import AdminLogin from '../views/AdminLogin.vue'
 import AdminSignUp from '../views/AdminSignUp.vue'
 
+
+
+
 const routes = [
-  // {
-  //   path: '/',
-  //   name: 'home',
-  //   component: HomeView,
-  // },
-  // {
-  //   path: '/about',
-  //   name: 'about',
-  //   route level code-splitting
-  //   this generates a separate chunk (About.[hash].js) for this route
-  //   which is lazy-loaded when the route is visited.
-  //   component: () => import('../views/AboutView.vue'),
-  // },
+
   {
     path: '/',
     name: 'Login',
-    component: Login
+    component: Login,
+    meta: {requiresGuest: true}
   },
   {
     path: '/register',
     name: 'Register',
-    component: Register
+    component: Register,
+    meta: {requiresGuest: true}
   },
   {
     path:'/stall',
     name: 'Stall',
-    component: Stall
+    component: Stall,
+    meta: {requiresAuth: true}
   },
   {
     path:'/Admin/Login',
@@ -44,6 +38,15 @@ const routes = [
     name: 'AdminSignUp',
     component: AdminSignUp
   },
+
+  {
+    path: '/logout',
+    name: 'Logout',
+    beforeEnter: (to, from, next) => {
+      localStorage.removeItem('access_token');
+      next('/')
+    }
+  }
   // You can add more routes here as needed
 ]
 
@@ -51,5 +54,22 @@ const router = createRouter({
   history: createWebHistory(),
   routes
 })
+
+const isAuthenticated =() => !!localStorage.getItem('access_token');
+
+router.beforeEach((to, from, next) => {
+  const loggedIn = isAuthenticated();
+
+  if (to.meta.requiresGuest && loggedIn) {
+    return next('/stall'); // Redirect logged-in users to /stall
+  }
+
+  if (to.meta.requiresAuth && !loggedIn) {
+    return next('/'); // Redirect unauthenticated users to login
+  }
+
+  next(); // Allow access to the route
+});
+
 
 export default router
