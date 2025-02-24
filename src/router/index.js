@@ -3,7 +3,7 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Stall from '../views/Stall.vue'
 import AdminLogin from '../views/AdminLogin.vue'
-import AdminSignUp from '../views/AdminSignUp.vue'
+import AdminStall from '../views/AdminStall.vue'
 
 
 
@@ -34,9 +34,9 @@ const routes = [
     component: AdminLogin
   },
   {
-    path:'/Admin/Signup',
-    name: 'AdminSignUp',
-    component: AdminSignUp
+    path:'/Admin/Stall',
+    name: 'AdminStall',
+    component: AdminStall
   },
 
   {

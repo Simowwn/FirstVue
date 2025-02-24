@@ -1,15 +1,19 @@
 <template>
-  <div class="full-screen">
-    <form class="form-container">
-      <SMLlogo/>
-      <h1>Admin Login</h1>
-      <br>
-      <Inputlabel label="Email" /> 
-      <Inputbar placeholder="Enter your email"/>
-      <Inputlabel label="Password" /> 
-      <Inputbar type="password" placeholder="Enter your password" />
-      <RegisButton label="Login"/>
-    </form>
+  <div class="">
+    <table>
+      <tr>
+        <th>Stall</th>
+        <th>Brand</th>
+        <th>Owner</th>
+        <th>Created at</th>
+      </tr>
+      <tr v-for="stall in stalls" :key="stall.id">
+        <td>{{ stall.type }}</td>
+        <td>{{ stall.brand }}</td>
+        <td>{{ stall.owner || 'N/A' }}</td>
+        <td>{{ new Date(stall.created_at).toLocaleString() }}</td>
+      </tr>
+    </table>
   </div>
 </template>
 
@@ -21,10 +25,25 @@ import SMLlogo from '../components/props/SMLlogo.vue';
 
 export default {
   data() {
-    return { name: 'John' }
+    return { 
+      stalls: []
+    }
   },
   components: {
-    Inputbar,Inputlabel,RegisButton,SMLlogo
+    Inputbar, Inputlabel, RegisButton, SMLlogo
+  },
+  mounted() {
+    this.fetchStalls();
+  },
+  methods: {
+    async fetchStalls() {
+      try {
+        const response = await this.$api.adminStalls();
+        this.stalls = response.data;
+      } catch (error) {
+        console.error('Error fetching stalls:', error);
+      }
+    }
   }
 }
 </script>

@@ -1,3 +1,4 @@
+import AdminLogin from '@/views/AdminLogin.vue';
 import axios from 'axios';
 import Cookies from 'js-cookie'; // Import js-cookie
 
@@ -25,13 +26,13 @@ api.interceptors.request.use(
 );
 
 export const userService = {
-  getUsers() {
-    return api.get('/users/');
+  getUsers:async () => {
+    return await api.get('/users/');
   },
   async login(credentials) {
     try {
       // First get the token
-      const tokenResponse = await api.post('/token/', credentials);
+      const tokenResponse = await api.post('/users/login/', credentials);
       return tokenResponse;
     } catch (error) {
       throw error;
@@ -78,6 +79,35 @@ export const userService = {
       console.error('Error in delete stall:', error);
       throw error;
     }
+  },
+  async adminLogin(credentials){
+    try {
+      return await api.post(`/admin/`, credentials);
+    } catch (error){
+      console.error('Error unable to Login :', error);
+      throw error;
+    }
+  },
+  async adminStalls(){
+    try {
+      return await api.get(`/admin/stall/stall/`, stallData);
+    } catch (error){
+      console.error('Error admin unable to add  stall :', error);
+      throw error;
+
+    }
+
+  },
+
+  async adminUsers(){
+    try {
+      return await api.get(`/admin/user/users/`, stallData);
+    } catch (error){
+      console.error('Error admin unable to add  users :', error);
+      throw error;
+
+    }
+
   },
 };
 
