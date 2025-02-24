@@ -4,6 +4,7 @@ import Register from '../views/Register.vue'
 import Stall from '../views/Stall.vue'
 import AdminLogin from '../views/AdminLogin.vue'
 import AdminStall from '../views/AdminStall.vue'
+import AdminUsers from '@/views/AdminUsers.vue'
 
 
 
@@ -38,7 +39,11 @@ const routes = [
     name: 'AdminStall',
     component: AdminStall
   },
-
+  {
+    path:'/Admin/Users',
+    name: 'AdminUsers',
+    component: AdminUsers,
+  },
   {
     path: '/logout',
     name: 'Logout',

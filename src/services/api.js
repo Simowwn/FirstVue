@@ -99,15 +99,13 @@ export const userService = {
 
   },
 
-  async adminUsers(){
+  async adminUsers() {
     try {
-      return await api.get(`/admin/user/users/`, stallData);
-    } catch (error){
-      console.error('Error admin unable to add  users :', error);
-      throw error;
-
+      return await api.get('/users/users/'); // Ensure this endpoint exists in your backend
+    } catch (error) {
+      console.error('Error fetching admin users:', error);
+      throw error; // Rethrow the error for further handling
     }
-
   },
 };
 

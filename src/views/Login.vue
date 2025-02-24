@@ -31,6 +31,7 @@ import Inputlabel from '../components/props/Inputlabel.vue';
 import RegisButton from '../components/props/RegisButton.vue';
 import SMLlogo from '../components/props/SMLlogo.vue';
 
+
 export default {
   data() {
     return {
@@ -56,8 +57,13 @@ export default {
           localStorage.setItem('access_token', response.data.access);
           localStorage.setItem('refresh_token', response.data.refresh);
           
-          // Redirect to stall page after successful login
-          await this.$router.push('/stall');
+          // Check if the user is staff and redirect accordingly
+          if (response.data.user.is_staff) {
+            await this.$router.push('/admin/stall');
+          } else {
+            // Redirect to stall page after successful login
+            await this.$router.push('/stall');
+          }
         } else {
           this.error = 'Invalid login response';
         }
