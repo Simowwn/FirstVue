@@ -1,11 +1,13 @@
 import axios from 'axios';
+import Cookies from 'js-cookie'; // Import js-cookie
 
 const api = axios.create({
   baseURL: 'http://localhost:8000/api',
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
-  }
+    'X-CSRFToken': Cookies.get('csrftoken'), // Add CSRF token header
+  },
 });
 
 // Add a request interceptor to add the auth token
@@ -48,6 +50,8 @@ export const userService = {
       return await api.post('/stalls/stalls/', stallData);
     } catch (error) {
       console.error('Error registering stall:', error); // Log the error
+      // Improved error logging
+      console.error('Error details:', error.response?.data); // Log detailed error response
       throw error; // Rethrow the error for further handling
     }
   },
@@ -58,8 +62,15 @@ export const userService = {
       console.error('Error fetching stalls:', error); // Log the error
       throw error; // Rethrow the error for further handling
     }
-  }
-
+  },
+  async editStalls(id, stallData) {
+    try {
+      return await api.patch(`/stalls/stalls/${id}/`, stallData); // Use the id and stallData
+    } catch (error) {
+      console.error('Error in patching stall:', error); // Log the error
+      throw error; // Rethrow the error for further handling
+    }
+  },
 };
 
 export default api; 
