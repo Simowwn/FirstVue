@@ -67,7 +67,7 @@ export default {
                     error.response?.data?.error || 
                     'Login failed. Please check your credentials.';
       }
-    }
+    } 
   }
 }
 </script>
