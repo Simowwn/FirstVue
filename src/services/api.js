@@ -71,6 +71,14 @@ export const userService = {
       throw error; // Rethrow the error for further handling
     }
   },
+  async deleteStalls(id, stallData){
+    try {
+      return await api.delete(`/stalls/stalls/${id}/`, stallData);
+    } catch (error) {
+      console.error('Error in delete stall:', error);
+      throw error;
+    }
+  },
 };
 
 export default api; 

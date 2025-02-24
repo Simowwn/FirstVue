@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <div class="row">
+    <div class="row bg-blue">
       <div class="col stall-form">
         <form class="form-container" @submit.prevent="handleStall">
           <h1 class="stall-title">Register Stalls</h1>
@@ -23,7 +23,7 @@
           <p class="card-type">{{ stall.type }}</p>
           <div class="btn-container">
             <button class="btn-edit" @click="openEditModal(stall)">Edit</button>
-            <button class="btn-delete">Delete</button>
+            <button class="btn-delete" @click="deleteStall(stall.id)">Delete</button>
           </div>
         </div>
       </div>
@@ -100,6 +100,16 @@ export default {
         this.error = 'Failed to update stall. Please try again.';
       }
     },
+    async deleteStall(stallId) {
+      try {
+        await userService.deleteStalls(stallId);
+        await this.fetchStalls();
+      }catch{
+        console.error('Error deleting stall:', error);
+        this.error = 'Failed to delete stall. Please try again';
+      }
+    },
+
     openEditModal(stall) {
       this.selectedStall = stall;
       this.isEditModalVisible = true;
@@ -123,6 +133,9 @@ export default {
   align-items: center;
   gap: 20px;
   flex-wrap: wrap;
+}
+.bg-blue{
+  background-color: #5C97D1;
 }
 
 .stall-container {
@@ -174,11 +187,16 @@ th, td {
   border: 1px solid black;
   border-radius: 5px;
   padding:10px;
-  min-width: 180px;
+  width: 180px;
+  max-width: 200px;
   margin: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: white;
+}
+.card:hover{
+  padding: 15px;
 }
 
 .card-brand{
@@ -204,7 +222,7 @@ th, td {
 
 .btn-edit:hover {
   background-color: #ffc966; 
-  padding: 8px;
+  padding: 6px;
 }
 
 .btn-delete {
@@ -218,7 +236,7 @@ th, td {
 
 .btn-delete:hover {
   background-color: #ff6666; 
-  padding: 8px;
+  padding: 6px;
 }
 
 </style>

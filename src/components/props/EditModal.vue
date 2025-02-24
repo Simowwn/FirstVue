@@ -91,8 +91,8 @@ export default {
 }
 
 .btn-save:hover {
-  background-color: #ff6666; 
-  padding: 8px;
+  background-color: #218838; 
+  padding: 6px;
 }
 .btn-close {
   background-color: #FF4C4C;
@@ -105,6 +105,6 @@ export default {
 
 .btn-close:hover {
   background-color: #ff6666; 
-  padding: 8px;
+  padding: 6px;
 }
 </style> 
