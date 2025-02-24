@@ -45,7 +45,7 @@ export const userService = {
   async registerStall(stallData) {
     console.log('Registering stall with data:', stallData); // Debug log
     try {
-      return await api.post('/stalls/', stallData);
+      return await api.post('/stalls/stalls/', stallData);
     } catch (error) {
       console.error('Error registering stall:', error); // Log the error
       throw error; // Rethrow the error for further handling
@@ -53,7 +53,7 @@ export const userService = {
   },
   async getStalls() {
     try {
-      return await api.get('/stalls/'); // Ensure this endpoint exists in your backend
+      return await api.get('/stalls/stalls/'); // Ensure this endpoint exists in your backend
     } catch (error) {
       console.error('Error fetching stalls:', error); // Log the error
       throw error; // Rethrow the error for further handling
