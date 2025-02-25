@@ -12,9 +12,10 @@
           <font-awesome-icon :icon="['fas', 'user']" class="fa-3x" /> 
         </div>
         
-      <h3 class="card-title">{{ user.first_name + " "+ user.last_name  }}</h3>
+      <h3 class="card-title">{{ user.first_name + " "+ user.last_name }}</h3>
       <p class="card-email">{{ user.email }}</p>
       <p class="card-date">{{ user.date_joined }}</p>
+
     </div>
     </div>
 
@@ -60,14 +61,23 @@ export default {
     async fetchAdminUsers() {
       try {
         const response = await adminService.adminUsers();
-        this.users = response.data;
+        console.log('Admin users API response:', response.data);
+        this.users = response.data.map(user => ({
+          ...user,
+          id: user.id // Ensure the ID is included in the user object
+        }));
       } catch (error) {
         console.error('Error fetching admin users:', error);
       }
     },
 
     async editUser(user) {
-      this.selectedUser = user;
+      this.selectedUser = {
+        id: user.id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+      };
       this.showModal = true;
     },
     
@@ -77,19 +87,46 @@ export default {
     },
     async saveUser(updatedUser) {
       try {
-        await adminService.updatedUser(updatedUser.id, updatedUser);
+        if (!updatedUser || !updatedUser.id) {
+          console.error('Cannot update user: Invalid user data', updatedUser);
+          return;
+        }
+        
+        const userData = {
+          first_name: updatedUser.first_name,
+          last_name: updatedUser.last_name,
+          email: updatedUser.email,
+        };
+        
+        console.log('Updating user with ID:', updatedUser.id, 'Data:', userData);
+        await adminService.editUsers(updatedUser.id, userData);
         await this.fetchAdminUsers();
+        this.closeModal();
+        alert('User updated successfully');
       } catch (error) {
         console.error('Error updating user:', error);
+        alert('Failed to update user. Please try again.');
       }
     },
 
     async deleteUser(user) {
       try {
-        await adminService.deleteUser(user.id);
-        this.fetchAdminUsers();
+        if (!user || !user.id) {
+          console.error('Cannot delete user: Invalid user ID', user);
+          return;
+        }
+        
+        if (!confirm(`Are you sure you want to delete ${user.first_name} ${user.last_name}?`)) {
+          return;
+        }
+        
+        console.log('Attempting to delete user:', user.id);
+        await adminService.deleteUsers(user.id);
+        this.users = this.users.filter(u => u.id !== user.id);
+        alert('User deleted successfully');
       } catch (error) {
         console.error('Error deleting user:', error);
+        alert('Failed to delete user. Please try again.');
       }
     },
   }

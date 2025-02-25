@@ -9,22 +9,31 @@ export const adminService = {
       const response = await api.get('/users/users/');
       return response;
     },
-    updateStall: async (id, stallData) => {
-      const response = await api.patch(`/stalls/stalls/${id}/`, stallData);
-      return response;
+    editUsers: async (id, userData) => {
+      try {
+        const response = await api.patch(`/users/users/${id}/`, userData, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+          }
+        });
+        return response;
+      } catch (error) {
+        console.error('Edit user error:', error);
+        throw error;
+      }
     },
-    deleteStall: async (id) => {
-      const response = await api.delete(`/stalls/stalls/${id}/`);
-      return response;
-    },
-
-    deleteUser: async (id) => { // Add this function
-      const response = await api.delete(`/users/users/${id}/`); // Adjust the endpoint as necessary
-      return response;
-    },
-
-    updatedUser: async (id, userData) => { // Add this function
-      const response = await api.patch(`/users/users/${id}/`, userData); // Adjust the endpoint as necessary
-      return response;
+    
+    deleteUsers: async (id) => {
+      try {
+        const response = await api.delete(`/users/users/${id}/`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+          }
+        });
+        return response;
+      } catch (error) {
+        console.error('Delete user error:', error);
+        throw error;
+      }
     },
 };
