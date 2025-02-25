@@ -17,6 +17,16 @@
       <p class="card-date">{{ user.date_joined }}</p>
     </div>
     </div>
+
+
+   <Teleport to="body">
+      <ModalUsers 
+        v-if="showModal"
+        :user="selectedUser"
+        @close="closeModal"
+        @save="saveUser"
+      />
+   </Teleport>
   </div>
 </template>
 
@@ -26,31 +36,54 @@ import { adminService } from '../services/admin';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import ModalUsers from '@/components/props/ModalUser.vue';
 
 library.add(fas); // Add solid icons to the library
 
 export default {
   components: {
     Navbar,
-    FontAwesomeIcon // Register the FontAwesomeIcon component
+    FontAwesomeIcon,
+    ModalUsers
   },
   data() {
     return { 
-      users: [] // Initialize as an empty array
+      users: [],
+      showModal: false,
+      selectedUser: null
     }
   },
   mounted() {
-    this.fetchAdminUsers(); // Fetch admin users when the component is mounted
+    this.fetchAdminUsers();
   },
   methods: {
     async fetchAdminUsers() {
       try {
-        const response = await adminService.adminUsers(); // Call the adminUsers method
-        this.users = response.data; // Assign the fetched data to the users array
+        const response = await adminService.adminUsers();
+        this.users = response.data;
       } catch (error) {
         console.error('Error fetching admin users:', error);
       }
     },
+
+    async editUser(user) {
+      this.selectedUser = user;
+      this.showModal = true;
+    },
+    
+    closeModal() {
+      this.showModal = false;
+      this.selectedUser = null;
+    },
+    async saveUser(updatedUser) {
+      try {
+        await adminService.updatedUser(updatedUser.id, updatedUser);
+        await this.fetchAdminUsers();
+      } catch (error) {
+        console.error('Error updating user:', error);
+      }
+    },
+
     async deleteUser(user) {
       try {
         await adminService.deleteUser(user.id);

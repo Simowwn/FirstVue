@@ -22,4 +22,9 @@ export const adminService = {
       const response = await api.delete(`/users/users/${id}/`); // Adjust the endpoint as necessary
       return response;
     },
+
+    updatedUser: async (id, userData) => { // Add this function
+      const response = await api.patch(`/users/users/${id}/`, userData); // Adjust the endpoint as necessary
+      return response;
+    },
 };
