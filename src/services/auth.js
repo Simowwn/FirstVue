@@ -10,6 +10,8 @@ export const authService = {
     return response;
   },
   register: async (userData) => {
+    // Send the userData directly without additional conversion
+    // The is_staff value is already a boolean from the v-model binding
     const response = await api.post('/users/register/', userData);
     return response;
   },

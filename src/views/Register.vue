@@ -19,14 +19,23 @@
         <Inputlabel label="Confirm Password" /> 
         <Inputbar v-model="confirm_password" type="password" placeholder="Enter your password again" />
 
-        <div>
+        <div class="staff-checkbox-container">
           <Inputlabel label="Staff Status" />
-        <input type="checkbox" v-model="is_staff" />
+          <input 
+            type="checkbox" 
+            id="staff-checkbox" 
+            v-model="is_staff" 
+            class="staff-checkbox"
+          />
+          <label for="staff-checkbox" class="checkbox-label">
+            <strong>Register as admin (staff member)</strong>
+          </label>
         </div>
 
         <RegisButton type="submit" label="Sign Up"/>
       </form>
       <p v-if="error" class="error-message">{{error}}</p>
+      <p v-if="successMessage" class="success-message">{{successMessage}}</p>
     </div>
   </template>
   
@@ -50,7 +59,8 @@ import Inputbar from '../components/props/Inputbar.vue';
         password: '',
         confirm_password: '',
         is_staff: false,
-        error: null
+        error: null,
+        successMessage: null
        }
 
     },
@@ -58,18 +68,37 @@ import Inputbar from '../components/props/Inputbar.vue';
         async handleRegister() {
             try {
                 this.error = null
-                const response = await authService.register({
+                
+                // Create the user data object with explicit boolean conversion
+                const userData = {
                     first_name: this.first_name,
                     last_name: this.last_name,
                     email: this.email,
                     password: this.password,
                     confirm_password: this.confirm_password,
-                    is_staff: this.is_staff,
+                    is_staff: this.is_staff, // Remove the Boolean() wrapper - it's already a boolean
+                }
+                
+                // Log the registration data for debugging
+                console.log('Sending registration data:', {
+                    ...userData,
+                    is_staff_type: typeof userData.is_staff,
+                    is_staff_value: userData.is_staff
                 })
-                console.log('Registration successful:', response.data)
-                await this.$router.push('/')
+                
+                const response = await authService.register(userData)
+                console.log('Backend response:', response.data)
+                
+                this.successMessage = 'Registration successful! Redirecting to login...'
+                
+                setTimeout(() => {
+                    this.$router.push('/')
+                }, 1500)
             } catch (error) {
-                console.error('Registration error', error )
+                console.error('Registration error:', error)
+                if (error.response?.data) {
+                    console.log('Backend error details:', error.response.data)
+                }
                 this.error = error.response?.data?.message || 'Registration failed.'
             }
         }
@@ -82,5 +111,33 @@ import Inputbar from '../components/props/Inputbar.vue';
 .error-message {
   color: red;
   margin-top: 10px;
+}
+
+.staff-checkbox-container {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.staff-checkbox {
+  margin: 0 10px;
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+}
+
+.checkbox-label {
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.success-message {
+  color: green;
+  margin-top: 10px;
+  font-weight: bold;
 }
 </style>
