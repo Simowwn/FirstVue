@@ -36,12 +36,13 @@
 </template>
 
 <script>
-import { userService } from '../services/api';
+
 import Inputbar from '../components/props/Inputbar.vue';
 import Inputlabel from '../components/props/Inputlabel.vue';
 import RegisButton from '../components/props/RegisButton.vue';
 import Navbar from '../components/props/Navbar.vue';
 import EditModal from '../components/props/EditModal.vue';
+import { stallService } from '@/services/stall';
 
 export default {
   data() {
@@ -66,7 +67,7 @@ export default {
           type: this.type
         });
 
-        const response = await userService.registerStall({
+        const response = await stallService.registerStall({
           brand: this.brand,
           type: this.type
         });
@@ -83,7 +84,7 @@ export default {
     },
     async fetchStalls() {
       try {
-        const response = await userService.getStalls();
+        const response = await stallService.getStalls();
         this.stalls = response.data;
       } catch (error) {
         console.error('Error fetching stalls:', error);
@@ -92,7 +93,7 @@ export default {
    
     async updateStall(updatedStall) {
       try {
-        await userService.editStalls(updatedStall.id, updatedStall);
+        await stallService.editStall(updatedStall.id, updatedStall);
         await this.fetchStalls();
         this.closeEditModal();
       } catch (error) {
@@ -102,9 +103,9 @@ export default {
     },
     async deleteStall(stallId) {
       try {
-        await userService.deleteStalls(stallId);
+        await stallService.deleteStall(stallId);
         await this.fetchStalls();
-      }catch{
+      } catch (error) {
         console.error('Error deleting stall:', error);
         this.error = 'Failed to delete stall. Please try again';
       }

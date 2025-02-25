@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Stall from '../views/Stall.vue'
-import AdminLogin from '../views/AdminLogin.vue'
 import AdminStall from '../views/AdminStall.vue'
 import AdminUsers from '@/views/AdminUsers.vue'
 
@@ -29,11 +28,7 @@ const routes = [
     component: Stall,
     meta: {requiresAuth: true}
   },
-  {
-    path:'/Admin/Login',
-    name: 'AdminLogin',
-    component: AdminLogin
-  },
+  
   {
     path:'/Admin/Stall',
     name: 'AdminStall',

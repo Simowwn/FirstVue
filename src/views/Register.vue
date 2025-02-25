@@ -5,10 +5,10 @@
         <h1>SignUp</h1>
         <br>
         <Inputlabel label="First Name" /> 
-        <Inputbar v-model="first_name" placeholder="Enter your email"/>
+        <Inputbar v-model="first_name" placeholder="Enter your first name"/>
 
         <Inputlabel label="Last Name" /> 
-        <Inputbar v-model ="last_name" placeholder="Enter your email"/>
+        <Inputbar v-model ="last_name" placeholder="Enter your last name"/>
 
         <Inputlabel label="Email" /> 
         <Inputbar v-model="email" placeholder="Enter your email"/>
@@ -18,6 +18,11 @@
 
         <Inputlabel label="Confirm Password" /> 
         <Inputbar v-model="confirm_password" type="password" placeholder="Enter your password again" />
+
+        <div>
+          <Inputlabel label="Staff Status" />
+        <input type="checkbox" v-model="is_staff" />
+        </div>
 
         <RegisButton type="submit" label="Sign Up"/>
       </form>
@@ -31,7 +36,7 @@ import Inputbar from '../components/props/Inputbar.vue';
   import Inputlabel from '../components/props/Inputlabel.vue';
   import RegisButton from '../components/props/RegisButton.vue';
   import SMLlogo from '../components/props/SMLlogo.vue';
-  import { userService } from '../services/api'
+  import { authService } from '../services/auth'
   
   export default {
     components: {
@@ -44,6 +49,7 @@ import Inputbar from '../components/props/Inputbar.vue';
         email:'',
         password: '',
         confirm_password: '',
+        is_staff: false,
         error: null
        }
 
@@ -52,12 +58,13 @@ import Inputbar from '../components/props/Inputbar.vue';
         async handleRegister() {
             try {
                 this.error = null
-                const response = await userService.register({
+                const response = await authService.register({
                     first_name: this.first_name,
                     last_name: this.last_name,
                     email: this.email,
                     password: this.password,
                     confirm_password: this.confirm_password,
+                    is_staff: this.is_staff,
                 })
                 console.log('Registration successful:', response.data)
                 await this.$router.push('/')
